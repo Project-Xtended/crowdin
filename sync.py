@@ -78,9 +78,9 @@ def push_as_commit(base_path, path, name, branch):
     # Push commit (destination branch depends on whether repo is on gerrit or not)
     try:
         if name in non_gerrit_repos:
-            repo.git.push(f'ssh://git@github.com/{name}', 'HEAD:pie')
+            repo.git.push(f'ssh://git@github.com/{name}', 'HEAD:ten')
         else:
-            repo.git.push(f'ssh://review.aosiprom.com:29418/{name}', 'HEAD:refs/for/pie/translations')
+            repo.git.push(f'ssh://review.aosip.dev:29418/{name}', 'HEAD:refs/for/ten/translations')
         print('Successfully pushed commit for %s' % name)
     except:
         print('Failed to push commit for %s' % name, file=sys.stderr)
@@ -254,7 +254,7 @@ def download_crowdin(base_path, branch, xml, no_download=False):
 
 def main():
     args = parse_args()
-    default_branch = 'pie'
+    default_branch = 'ten'
 
     base_path = os.getenv('AOSIP_CROWDIN_BASE_PATH')
     if base_path is None:
