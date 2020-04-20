@@ -72,15 +72,12 @@ def push_as_commit(base_path, path, name, branch):
               % name, file=sys.stderr)
         return
 
-    # List of repositories not on gerrit
-    non_gerrit_repos = ()
-
-    # Push commit (destination branch depends on whether repo is on gerrit or not)
+    topic = 'translations'
+    if 'AOSIP-Devices' in name:
+        topic += "-" + name.split('_')[-1]
+    # Push commit to gerrit
     try:
-        if name in non_gerrit_repos:
-            repo.git.push(f'ssh://git@github.com/{name}', 'HEAD:ten')
-        else:
-            repo.git.push(f'ssh://review.aosip.dev:29418/{name}', 'HEAD:refs/for/ten/translations')
+        repo.git.push(f'ssh://review.aosip.dev:29418/{name}', f'HEAD:refs/for/ten/{topic}')
         print('Successfully pushed commit for %s' % name)
     except:
         print('Failed to push commit for %s' % name, file=sys.stderr)
