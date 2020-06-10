@@ -77,7 +77,7 @@ def push_as_commit(base_path, path, name, branch):
         topic += "-" + name.split('_')[-1]
     # Push commit to gerrit
     try:
-        repo.git.push(f'ssh://review.aosip.dev:29418/{name}', f'HEAD:refs/for/ten/{topic}')
+        repo.git.push(f'ssh://review.aosip.dev:29418/{name}', f'HEAD:refs/for/ten', '-o', f'topic={topic}')
         print('Successfully pushed commit for %s' % name)
     except:
         print('Failed to push commit for %s' % name, file=sys.stderr)
