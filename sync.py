@@ -3,11 +3,12 @@
 # crowdin_sync.py
 #
 # Updates Crowdin source translations and pushes translations
-# to AOSiP's Gerrit Code Review
+# to MSM-Xtended's Gerrit Code Review
 #
 # Copyright (C) 2014-2015 The CyanogenMod Project
 # This code has been modified. Portions copyright (C) 2016, The PAC-ROM Project
 # Copyright (C) 2018-2019 AOSiP
+# Copyright (C) 2020 MSM-Xtended
 # SPDX-License-Identifier: Apache-2.0
 #
 
@@ -73,11 +74,9 @@ def push_as_commit(base_path, path, name, branch):
         return
 
     topic = 'translations'
-    if 'AOSIP-Devices' in name:
-        topic += "-" + name.split('_')[-1]
     # Push commit to gerrit
     try:
-        repo.git.push(f'ssh://review.aosip.dev:29418/{name}', f'HEAD:refs/for/ten', '-o', f'topic={topic}')
+        repo.git.push(f'ssh://review.msmxtended.me:29418/{name}', f'HEAD:refs/for/xq', '-o', f'topic={topic}')
         print('Successfully pushed commit for %s' % name)
     except:
         print('Failed to push commit for %s' % name, file=sys.stderr)
@@ -102,12 +101,12 @@ def find_xml(base_path):
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Synchronising AOSiP's translations with Crowdin")
+        description="Synchronising MSM-Xtended's translations with Crowdin")
     sync = parser.add_mutually_exclusive_group()
     sync.add_argument('--no-upload', action='store_true',
-                      help='Only download AOSiP translations from Crowdin')
+                      help='Only download MSM-Xtended translations from Crowdin')
     sync.add_argument('--no-download', action='store_true',
-                      help='Only upload AOSiP source translations to Crowdin')
+                      help='Only upload MSM-Xtended source translations to Crowdin')
     return parser.parse_args()
 
 # ################################# PREPARE ################################## #
@@ -251,17 +250,17 @@ def download_crowdin(base_path, branch, xml, no_download=False):
 
 def main():
     args = parse_args()
-    default_branch = 'ten'
+    default_branch = 'xq'
 
-    base_path = os.getenv('AOSIP_CROWDIN_BASE_PATH')
+    base_path = os.getenv('XTENDED_CROWDIN_BASE_PATH')
     if base_path is None:
         cwd = os.getcwd()
-        print('You have not set AOSIP_CROWDIN_BASE_PATH. Defaulting to %s' % cwd)
+        print('You have not set XTENDED_CROWDIN_BASE_PATH. Defaulting to %s' % cwd)
         base_path = cwd
     else:
         base_path = os.path.join(os.path.realpath(base_path))
     if not os.path.isdir(base_path):
-        print('AOSIP_CROWDIN_BASE_PATH + branch is not a real directory: c'
+        print('XTENDED_CROWDIN_BASE_PATH + branch is not a real directory: c'
               % base_path)
         sys.exit(1)
 
