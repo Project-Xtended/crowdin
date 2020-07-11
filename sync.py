@@ -76,7 +76,7 @@ def push_as_commit(base_path, path, name, branch):
     topic = 'translations'
     # Push commit to gerrit
     try:
-        repo.git.push(f'ssh://review.msmxtended.me:29418/{name}', f'HEAD:refs/for/xq%topic={topic}')
+        repo.git.push(f'ssh://review.msmxtended.me:29418/Project-Xtended/{name}', f'HEAD:refs/for/xq%topic={topic}')
         print('Successfully pushed commit for %s' % name)
     except:
         print('Failed to push commit for %s' % name, file=sys.stderr)
